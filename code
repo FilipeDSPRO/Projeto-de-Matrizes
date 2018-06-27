@@ -1,0 +1,311 @@
+#include <stdio.h>
+#include <math.h>
+
+#define MAX 100
+float A[MAX][MAX];
+float B[MAX][MAX];
+float C[MAX][MAX];
+int linhasA, colunasA, linhasB, colunasB, linhasC, colunasC;
+
+FILE * readA;
+FILE * readB;
+FILE * writeC;
+
+
+void DefTamA(){
+    printf("Quantidade de linhas de A: ");
+    scanf("%d",&linhasA);
+    if (linhasA>100){
+        printf("\nValor excede o limite.");
+        linhasA=0;
+        return 0;
+    }
+    printf("\nQuantidade de colunas de A: ");
+    scanf("%d",&colunasA);
+    if (colunasA>100){
+        printf("\nValor excede o limite.");
+        colunasA=0;
+        return 0;
+    }
+}
+
+void DefTamB(){
+    printf("Quantidade de linhas de B: ");
+    scanf("%d",&linhasB);
+    if (linhasB>100){
+        printf("\nValor excede o limite.");
+        linhasB=0;
+        return 0;
+    }
+    printf("\nQuantidade de colunas de B: ");
+    scanf("%d",&colunasB);
+    if (colunasB>100){
+        printf("\nValor excede o limite.");
+        colunasB=0;
+        return 0;
+    }
+}
+
+void PreMatrA(){
+    for (int i=0; i<linhasA;i++){
+        for (int j=0; j<colunasA; j++){
+            A[i][j]=rand()%101;
+        }
+    }
+    printf("\n VALORES GERADOS COM SUCESSO\n");
+}
+
+void PreMatrB(){
+    for (int i=0; i<linhasB;i++){
+        for (int j=0; j<colunasB; j++){
+            B[i][j]=rand()%101;
+        }
+    }
+    printf("\n VALORES GERADOS COM SUCESSO\n");
+}
+
+void AtrMatrA(){
+    for (int i=0; i<linhasA;i++){
+        for (int j=0; j<colunasA; j++){
+            printf("posicao [%d,%d] da matriz A: ", i,j);
+            scanf("%f",&A[i][j]);
+            printf("\n");
+        }
+    }
+}
+
+void AtrMatrB(){
+    for (int i=0; i<linhasB;i++){
+        for (int j=0; j<colunasB; j++){
+            printf("posicao [%d,%d] da matriz B: ", i,j);
+            scanf("%f",&B[i][j]);
+            printf("\n");
+        }
+    }
+}
+
+void Sum(float M1[MAX][MAX], float M2[MAX][MAX], float M3[MAX][MAX]){
+    linhasC=linhasA;
+    colunasC=colunasA;
+    //Testa as matrizes para ver se elas tem o mesmo numero de linhas e colunnas
+    if(colunasA==colunasB && linhasA==linhasB){
+        for(int i=0; i<linhasA; i++){    //tanto faz A ou B pois na subtração os tamanhos de linhas e colunas
+            for (int j=0; j<colunasA; j++){ // das matrizes devem ser iguais.
+                C[i][j]=A[i][j]+B[i][j];
+            }
+        }
+
+    }
+    //caso as matrizes tenham um numero diferente de linhas ou colunas o programa nao efetua a soma e mostra essa mensagem
+    if((colunasA != colunasB) || (linhasA != linhasB)){
+        printf("NAO EH POSSIVEL SOMAR ESSAS MATRIZES\n");
+    }
+    printf("\n SOMA EFETUADA COM SUCESSO\n");
+}
+
+void Sub(float M1[MAX][MAX], float M2[MAX][MAX], float M3[MAX][MAX]){
+    linhasC=linhasA;
+    colunasC=colunasA;
+    //Testa as matrizes para ver se elas tem o mesmo numero de linhas e colunnas
+    if(colunasA==colunasB && linhasA==linhasB){
+        for(int i=0; i<linhasA; i++){    //tanto faz A ou B pois na subtração os tamanhos de linhas e colunas
+            for (int j=0; j<colunasA; j++){ // das matrizes devem ser iguais.
+                C[i][j]=A[i][j]-B[i][j];
+            }
+        }
+
+    }
+    //caso as matrizes tenham um numero diferente de linhas ou colunas o programa nao efetua a subtracao e mostra essa mensagem
+    if((colunasA != colunasB) || (linhasA != linhasB)){
+        printf("NAO EH POSSIVEL SUBTRAIR ESSAS MATRIZES\n");
+    }
+    printf("\n SUBTRACAO EFETUADA COM SUCESSO\n");
+}
+
+void Produto(float M1[MAX][MAX], float M2[MAX][MAX], float M3[MAX][MAX]){
+    linhasC=linhasA;
+    colunasC=colunasB;
+    //Testa as matrizes para ver se elas tem o mesmo numero de linhas e colunnas
+    if(colunasA==linhasB && linhasA==colunasB){
+        for(int i=0; i<linhasA; i++){
+            for (int j=0; j<linhasA; j++){
+                for (int k=0; k<colunasB;k++){
+                    C[i][j]=C[i][j] +( A[i][k]*B[k][j] );}
+            }
+        }
+
+    }
+    //caso as matrizes tenham um numero diferente de linhasA e colunasB ou o contrario, o programa nao efetua o produto e mostra essa mensagem
+    if((colunasA != linhasB) || (linhasA != colunasB)){
+        printf("NAO EH POSSIVEL FAZER O PRODUTO DESSAS MATRIZES ESSAS MATRIZES\n");
+    }
+    printf("\n PRODUTO EFETUADO COM SUCESSO\n");
+}
+
+void ImprA(){
+    printf("\n MATRIZ A:\n");
+    for (int i=0; i<linhasA;i++){
+        for (int j=0; j<colunasA; j++){
+            printf("%f\t",A[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void ImprB(){
+    printf("\n MATRIZ B:\n");
+    for (int i=0; i<linhasB;i++){
+        for (int j=0; j<colunasB; j++){
+            printf("%f\t",B[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void ImprC(){
+    printf("\n MATRIZ C:\n");
+    for (int i=0; i<linhasC;i++){
+        for (int j=0; j<colunasC; j++){
+            printf("%f\t",C[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void LerA(){
+    readA = fopen("/matrizA.txt","r");
+    fscanf(readA,"%d", &linhasA);
+    fscanf(readA,"%d", &colunasA);
+
+    for(int i=0; i<linhasA;i++){
+        for(int j=0; j<colunasA;j++){
+            fscanf( readA, "%f", &A[i][j] );
+        }
+    }
+    fclose(readA);
+    printf("\n MATRIZ A LIDA COM SUCESSO\n");
+}
+
+void LerB(){
+    readB = fopen("/matrizB.txt","r");
+    fscanf(readB,"%d", &linhasB);
+    fscanf(readB,"%d", &colunasB);
+
+    for(int i=0; i<linhasB;i++){
+        for(int j=0; j<colunasB;j++){
+            fscanf( readB, "%f", &B[i][j] );
+        }
+    }
+    fclose(readB);
+    printf("\n MATRIZ B LIDA COM SUCESSO\n");
+}
+
+void EscreverC(){
+    writeC = fopen("/matrizC.txt","w");
+    for(int i=0; i<linhasC; i++){
+        for(int j=0; j<colunasC; j++){
+            fprintf(writeC,"%2f  ",C[i][j]);
+        }
+        fprintf(writeC,"\n");
+    }
+}
+
+int main()
+{
+    int opcao;
+
+    do{
+        printf("\n");
+        printf("=============== MENU ===============\n");
+        printf("(1) Definir o tamanho da matriz A\n");
+        printf("(2) Definir o tamanho da matriz B\n");
+        printf("(3) Preencher a matriz A com vaolres aleatorios\n");
+        printf("(4) Preencher a matriz B com valores aleatorios\n");
+        printf("(5) Atribuir valores manualmente para a matriz A\n");
+        printf("(6) Atribuir valores manualmente para a matriz B\n");
+        printf("(7) Calcular A+B\n");
+        printf("(8) Calcular A-B\n");
+        printf("(9) Calcular A*B\n");
+        printf("(10) Imprimir a matriz A\n");
+        printf("(11) Imprimir a matriz B\n");
+        printf("(12) Imprimir a matriz C\n");
+        printf("(13) Ler a matriz A de um arquivo\n");
+        printf("(14) Ler a matriz B de um arquivo\n");
+        printf("(15) Escrever a matriz C em um arquivo\n");
+        printf("(16) Sair\n");
+
+        printf("Digite o numero da opcao escolhida: ");
+        scanf("%d",&opcao);
+
+        switch(opcao){
+        case 1:
+            DefTamA();
+            printf("\n");
+            break;
+        case 2:
+            DefTamB();
+            printf("\n");
+            break;
+        case 3:
+            PreMatrA();
+            printf("\n");
+            break;
+        case 4:
+            PreMatrB();
+            printf("\n");
+            break;
+        case 5:
+            AtrMatrA();
+            printf("\n");
+            break;
+        case 6:
+            AtrMatrB();
+            printf("\n");
+            break;
+        case 7:
+            Sum(A,B,C);
+            printf("\n");
+            break;
+        case 8:
+            Sub(A,B,C);
+            printf("\n");
+            break;
+        case 9:
+            Produto(A,B,C);
+            printf("\n");
+            break;
+        case 10:
+            ImprA();
+            printf("\n");
+            break;
+        case 11:
+            ImprB();
+            printf("\n");
+            break;
+        case 12:
+            ImprC();
+            printf("\n");
+            break;
+        case 13:        
+            LerA();
+            printf("\n");
+            break;
+        case 14:
+            LerB();
+            printf("\n");
+            break;
+        case 15:
+            EscreverC();
+            printf("\n");
+            break;
+        case 16:
+
+            break;
+        default:
+            printf("Digite uma opcao valida!");
+            printf("\n");
+            break;
+        }
+    }while(opcao!=16);
+    return 0;
+}
